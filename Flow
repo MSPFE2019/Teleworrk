@@ -1,0 +1,62 @@
+# How to Guide: Creating a Power Automate Flow for SharePoint Notifications in Teams
+
+Follow these steps to create a Power Automate cloud flow that will send notifications in Teams when a new item is added to a SharePoint list:
+
+1. **Login to Power Automate**
+    - Navigate to the Power Automate portal.
+    - Sign in using your Microsoft credentials.
+
+2. **Create a New Cloud Flow**
+    - Click on “+ Create”.
+    - Select “Automated cloud flow”.
+    - Name your flow.
+    - In the “Choose your flow’s trigger” search box, type and select “When an item is created” from SharePoint triggers.
+    - Enter the required details like “Site address” and “List Name” then click "Create".
+
+3. **Add 'Get Item' Action**
+    - Click "New step".
+    - Search for and select "Get Item" from the SharePoint category.
+    - Fill out the fields using:
+        - “Site Address” and “List Name”.
+        - For the “Id” field, select “ID” from the dynamic content of the “When an item is created” trigger.
+
+4. **Add Teams Actions**
+    - Click "New step".
+    - Search for “Teams” and select the action "Get an @mention token for a user".
+    - For the user field, use "Created by Email" from the dynamic content.
+    
+    - Next, add “Get Manager V2” from the Office 365 Users category.
+        - Use “Created by Email” in the user field.
+
+    - Add another Teams action: "Post a message in a chat or channel".
+        - Configure it with:
+            - "Post as": Flow bot.
+            - "Post in": Chat with Flow bot.
+            - "Recipient": Use “Created by Email” from dynamic content.
+            - "Message": "Your Manager is not in Entra, please contact your manager."
+            - "Is Alert": Yes.
+        
+    - On this action's top right corner, click on the "..." menu, then select “Configure run after”. Uncheck "is successful" and check "has failed". The arrow icon should change from black to red.
+
+5. **Update SharePoint Item**
+    - Add the “Update Item” action from SharePoint.
+    - Use the following parameters:
+        - id: “Get Item, ID”
+        - Title, Employee, StateID, etc. (Use the format given in your provided example).
+    
+    - On this action, click on the "..." menu, then select "Configure run after". Uncheck "is successful" and check "is skipped". The arrow icon should change from black to red.
+
+6. **Add Approval Action**
+    - Click "New step".
+    - Search for and add “Start and wait for an approval”.
+    - Configure with:
+        - Approval Type: First to respond.
+        - Title, Assigned To, Item Link, etc. (Use the format given in your provided example).
+
+7. **Add a Condition for Approval Outcome**
+    - Add a "Condition" action.
+    - Set it to “Outcome” is equal to “Approve”.
+    - For the “Yes” branch, add your desired action (e.g., sending an approval message via Teams or Office 365 Outlook).
+    - Copy that action, paste it in the “No” branch, and modify the message accordingly for disapproval.
+
+After setting up all these actions, make sure to save your flow. Test it out by creating a new item in your SharePoint list to ensure the flow is working as expected. Adjust as necessary based on your specific requirements.
