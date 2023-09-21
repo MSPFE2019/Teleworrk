@@ -43,7 +43,16 @@ Follow these steps to create a Power Automate cloud flow that will send notifica
     - Use the following parameters:
         - id: “Get Item, ID”
         - Title, Employee, StateID, etc. (Use the format given in your provided example).
-    
+    Id : @{outputs('Get_item')?['body/ID']}
+    Title : @{outputs('Get_item')?['body/Title']}
+    Employee: @{outputs('Get_item')?['body/Author/DisplayName']}
+    ⁠StateID:@{outputs('Get_item')?['body/Author/Email']}
+    TeleworkerType Value:⁠@{outputs('Get_item')?['body/TeleworkerType/Value']}
+    ⁠ManagerName: @{outputs('Get_manager_(V2)')?['body/displayName']}
+    ⁠ManagerEmail:⁠@{outputs('Get_manager_(V2)')?['body/mail']}
+    ODJFSOffice Value :@{outputs('Get_item')?['body/ODJFSOffice/Value']}
+    ⁠Signature : @{outputs('Get_item')?['body/Author/DisplayName']}
+    ⁠AgreementDate : @{utcNow()}
     - On this action, click on the "..." menu, then select "Configure run after". Uncheck "is successful" and check "is skipped". The arrow icon should change from black to red.
 
 6. **Add Approval Action**
