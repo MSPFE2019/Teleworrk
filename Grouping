@@ -28,6 +28,3 @@
    - With controls grouped together, you can easily apply shared properties to them. For example, if you want the grouped controls to appear or disappear based on a condition, you only need to adjust the **Visible** property of the entire group, not each individual control.
    - Similarly, you can set other shared properties like color, border, and more to the entire group.
 
----
-
-Grouping in Power Apps simplifies design tasks, enhances the consistency of your app, and can save you time when making adjustments. Whether you're designing complex layouts or just aiming for cleaner design management, grouping is an essential tool in your Power Apps toolbox.
